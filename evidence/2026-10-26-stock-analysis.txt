@@ -1,0 +1,217 @@
+Stock 40.36 SHA256 25c9ba099339b482b6ba1b515fbf9bdfb32969abf38d6712be39c7c4b294d1a0
+Offline analysis; no device access.
+
+error-code-mapping
+0800e350: 10b5         push {r4, lr}
+0800e352: 00f009f8     bl #0x800e368
+0800e356: 0349         ldr r1, [pc, #0xc]
+0800e358: 8978         ldrb r1, [r1, #2]
+0800e35a: 0129         cmp r1, #1
+0800e35c: 08bf         it eq
+0800e35e: 0020         moveq r0, #0
+0800e360: 10bd         pop {r4, pc}
+0800e362: 0000         movs r0, r0
+0800e364: 9201         lsls r2, r2, #6
+0800e366: 0020         movs r0, #0
+0800e368: 3549         ldr r1, [pc, #0xd4]
+0800e36a: 0020         movs r0, #0
+0800e36c: d1f81510     ldr.w r1, [r1, #0x15]
+0800e370: 0029         cmp r1, #0
+0800e372: 04bf         itt eq
+0800e374: 0020         moveq r0, #0
+0800e376: 7047         bxeq lr
+0800e378: 11f0040f     tst.w r1, #4
+0800e37c: 1cbf         itt ne
+0800e37e: 0320         movne r0, #3
+0800e380: 7047         bxne lr
+0800e382: 11f0400f     tst.w r1, #0x40
+0800e386: 1cbf         itt ne
+0800e388: 0720         movne r0, #7
+0800e38a: 7047         bxne lr
+0800e38c: 11f4804f     tst.w r1, #0x4000
+0800e390: 1cbf         itt ne
+0800e392: 0f20         movne r0, #0xf
+0800e394: 7047         bxne lr
+0800e396: 2b4a         ldr r2, [pc, #0xac]
+0800e398: 527a         ldrb r2, [r2, #9]
+0800e39a: 012a         cmp r2, #1
+0800e39c: 04d1         bne #0x800e3a8
+0800e39e: 11f4005f     tst.w r1, #0x2000
+0800e3a2: 1cbf         itt ne
+0800e3a4: 0e20         movne r0, #0xe
+0800e3a6: 7047         bxne lr
+0800e3a8: 11f4803f     tst.w r1, #0x10000
+0800e3ac: 1cbf         itt ne
+0800e3ae: 1120         movne r0, #0x11
+0800e3b0: 7047         bxne lr
+0800e3b2: 11f0010f     tst.w r1, #1
+0800e3b6: 1cbf         itt ne
+0800e3b8: 0120         movne r0, #1
+0800e3ba: 7047         bxne lr
+0800e3bc: 11f0020f     tst.w r1, #2
+0800e3c0: 1cbf         itt ne
+0800e3c2: 0220         movne r0, #2
+0800e3c4: 7047         bxne lr
+0800e3c6: 11f4802f     tst.w r1, #0x40000
+0800e3ca: 1cbf         itt ne
+0800e3cc: 1320         movne r0, #0x13
+0800e3ce: 7047         bxne lr
+0800e3d0: 11f0800f     tst.w r1, #0x80
+0800e3d4: 1cbf         itt ne
+0800e3d6: 0820         movne r0, #8
+0800e3d8: 7047         bxne lr
+0800e3da: 11f0080f     tst.w r1, #8
+0800e3de: 1cbf         itt ne
+0800e3e0: 0420         movne r0, #4
+0800e3e2: 7047         bxne lr
+0800e3e4: 11f0100f     tst.w r1, #0x10
+0800e3e8: 1cbf         itt ne
+0800e3ea: 0520         movne r0, #5
+0800e3ec: 7047         bxne lr
+0800e3ee: 11f0200f     tst.w r1, #0x20
+0800e3f2: 1cbf         itt ne
+0800e3f4: 0620         movne r0, #6
+0800e3f6: 7047         bxne lr
+0800e3f8: 11f4807f     tst.w r1, #0x100
+0800e3fc: 1cbf         itt ne
+0800e3fe: 0920         movne r0, #9
+0800e400: 7047         bxne lr
+0800e402: 11f4007f     tst.w r1, #0x200
+0800e406: 1cbf         itt ne
+0800e408: 0a20         movne r0, #0xa
+0800e40a: 7047         bxne lr
+0800e40c: 11f4806f     tst.w r1, #0x400
+0800e410: 1cbf         itt ne
+0800e412: 0b20         movne r0, #0xb
+0800e414: 7047         bxne lr
+0800e416: 11f4006f     tst.w r1, #0x800
+0800e41a: 1cbf         itt ne
+0800e41c: 0c20         movne r0, #0xc
+0800e41e: 7047         bxne lr
+0800e420: 11f4805f     tst.w r1, #0x1000
+0800e424: 1cbf         itt ne
+0800e426: 0d20         movne r0, #0xd
+0800e428: 7047         bxne lr
+0800e42a: 11f4003f     tst.w r1, #0x20000
+0800e42e: 1cbf         itt ne
+0800e430: 1220         movne r0, #0x12
+0800e432: 7047         bxne lr
+0800e434: 11f4002f     tst.w r1, #0x80000
+0800e438: 18bf         it ne
+0800e43a: 1420         movne r0, #0x14
+0800e43c: 7047         bx lr
+
+rfid-periodic-mode
+08015a58: 1e48         ldr r0, [pc, #0x78]
+08015a5a: 10b4         push {r4}
+08015a5c: 90f82710     ldrb.w r1, [r0, #0x27]
+08015a60: 1d4b         ldr r3, [pc, #0x74]
+08015a62: 4ff0000c     mov.w ip, #0
+08015a66: 0029         cmp r1, #0
+08015a68: 02bf         ittt eq
+08015a6a: a3f810c0     strheq.w ip, [r3, #0x10]
+08015a6e: 10bc         popeq {r4}
+08015a70: 7047         bxeq lr
+08015a72: 188a         ldrh r0, [r3, #0x10]
+08015a74: 401c         adds r0, r0, #1
+08015a76: 80b2         uxth r0, r0
+08015a78: 184a         ldr r2, [pc, #0x60]
+08015a7a: 1882         strh r0, [r3, #0x10]
+08015a7c: a2fb0042     umull r4, r2, r2, r0
+08015a80: d208         lsrs r2, r2, #3
+08015a82: 5242         rsbs r2, r2, #0
+08015a84: 02eb8202     add.w r2, r2, r2, lsl #2
+08015a88: 10eb4202     adds.w r2, r0, r2, lsl #1
+08015a8c: 08bf         it eq
+08015a8e: 0329         cmpeq r1, #3
+08015a90: 06d1         bne #0x8015aa0
+08015a92: 9a78         ldrb r2, [r3, #2]
+08015a94: 12f0100f     tst.w r2, #0x10
+08015a98: 1cbf         itt ne
+08015a9a: 42f00102     orrne r2, r2, #1
+08015a9e: 9a70         strbne r2, [r3, #2]
+08015aa0: 0f4a         ldr r2, [pc, #0x3c]
+08015aa2: a2fb0042     umull r4, r2, r2, r0
+08015aa6: 4fea5212     lsr.w r2, r2, #5
+08015aaa: 6ff01804     mvn r4, #0x18
+08015aae: 02fb04f2     mul r2, r2, r4
+08015ab2: 10eb8200     adds.w r0, r0, r2, lsl #2
+08015ab6: 07bf         ittee eq
+08015ab8: a3f810c0     strheq.w ip, [r3, #0x10]
+08015abc: 0229         cmpeq r1, #2
+08015abe: 10bc         popne {r4}
+08015ac0: 7047         bxne lr
+08015ac2: 9878         ldrb r0, [r3, #2]
+08015ac4: 10f0100f     tst.w r0, #0x10
+08015ac8: 1cbf         itt ne
+08015aca: 40f00100     orrne r0, r0, #1
+08015ace: 9870         strbne r0, [r3, #2]
+08015ad0: 10bc         pop {r4}
+08015ad2: 7047         bx lr
+
+debug-mode-handler
+0801795a: 0d22         movs r2, #0xd
+0801795c: f8a1         adr r1, #0x3e0
+0801795e: 2846         mov r0, r5
+08017960: ebf731f9     bl #0x8002bc6
+08017964: 0028         cmp r0, #0
+08017966: 11d1         bne #0x801798c
+08017968: a87b         ldrb r0, [r5, #0xe]
+0801796a: 3128         cmp r0, #0x31
+0801796c: 08bf         it eq
+0801796e: 87f82780     strbeq.w r8, [r7, #0x27]
+08017972: 0bd0         beq #0x801798c
+08017974: 3228         cmp r0, #0x32
+08017976: 08bf         it eq
+08017978: 0220         moveq r0, #2
+0801797a: 05d0         beq #0x8017988
+0801797c: 3328         cmp r0, #0x33
+0801797e: 14bf         ite ne
+08017980: 87f82740     strbne.w r4, [r7, #0x27]
+08017984: 0320         moveq r0, #3
+08017986: 01d1         bne #0x801798c
+08017988: 87f82700     strb.w r0, [r7, #0x27]
+0801798c: 4db0         add sp, #0x134
+0801798e: bdec028b     vpop {d8}
+08017992: bde8f08f     pop.w {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+
+rfid-read-diagnostic
+0801800a: fdf77bf9     bl #0x8015304
+0801800e: fdf74ffa     bl #0x80154b0
+08018012: fdf79dfb     bl #0x8015750
+08018016: 8d4c         ldr r4, [pc, #0x234]
+08018018: 607a         ldrb r0, [r4, #9]
+0801801a: 0128         cmp r0, #1
+0801801c: 07d0         beq #0x801802e
+0801801e: 4db0         add sp, #0x134
+08018020: 8ba0         adr r0, #0x22c
+08018022: bdec028b     vpop {d8}
+08018026: bde8f04f     pop.w {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+0801802a: 01f0efba     b.w #0x801960c
+0801802e: 8fa0         adr r0, #0x23c
+08018030: 01f0ecfa     bl #0x801960c
+08018034: 94f85010     ldrb.w r1, [r4, #0x50]
+08018038: 93a0         adr r0, #0x24c
+0801803a: 01f0e7fa     bl #0x801960c
+0801803e: 94f86710     ldrb.w r1, [r4, #0x67]
+08018042: 96a0         adr r0, #0x258
+08018044: 01f0e2fa     bl #0x801960c
+08018048: 94f86a10     ldrb.w r1, [r4, #0x6a]
+0801804c: 98a0         adr r0, #0x260
+0801804e: 01f0ddfa     bl #0x801960c
+08018052: e189         ldrh r1, [r4, #0xe]
+08018054: 9ba0         adr r0, #0x26c
+
+rfid-retry-error
+08015a22: b87a         ldrb r0, [r7, #0xa]
+08015a24: 401c         adds r0, r0, #1
+08015a26: c0b2         uxtb r0, r0
+08015a28: b872         strb r0, [r7, #0xa]
+08015a2a: 0f28         cmp r0, #0xf
+08015a2c: f5d3         blo #0x8015a1a
+08015a2e: 0f20         movs r0, #0xf
+08015a30: b872         strb r0, [r7, #0xa]
+08015a32: d8f81500     ldr.w r0, [r8, #0x15]
+08015a36: 40f40020     orr r0, r0, #0x80000
+08015a3a: c8f81500     str.w r0, [r8, #0x15]
+08015a3e: ece7         b #0x8015a1a
