@@ -1,0 +1,17 @@
+{
+  "model": "B21-C2B",
+  "model_id": 775,
+  "version": "40.36",
+  "source_url": "https://oss-print.niimbot.com/public_resources/font/17377050df5429d871f82672a4d29cd2.bin",
+  "size_bytes": 113680,
+  "sha256": "25c9ba099339b482b6ba1b515fbf9bdfb32969abf38d6712be39c7c4b294d1a0",
+  "crc32_full": "55760c0d",
+  "api_md5_field": "55760C0D",
+  "first_32_bytes": "2871012051230008bf6e0008a56600088d6e0008a957000827a1000800000000",
+  "flashed": false,
+  "recovery_verified": false,
+  "api_crc32_matches": true,
+  "format_observation": "Starts with Cortex-M vector table; no B21 Pro 28-byte header.",
+  "initial_stack_pointer": "0x20017128",
+  "reset_vector": "0x8002351"
+}

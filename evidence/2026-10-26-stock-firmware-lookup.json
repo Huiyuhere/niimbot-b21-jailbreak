@@ -1,0 +1,188 @@
+[
+  {
+    "request": {
+      "machineName": "B21-C2B",
+      "firmVersion": "40.33"
+    },
+    "response": {
+      "data": {
+        "hardwareName": "B21-C2B",
+        "isCalibration": true,
+        "isAutoShutdown": true,
+        "paperTypeNames": [
+          "\u95f4\u9699\u7eb8",
+          "\u8fde\u7eed\u7eb8",
+          "\u900f\u660e\u7eb8",
+          "\u9ed1\u6807\u7eb8"
+        ],
+        "shutdownTimes": [
+          {
+            "gear": 1,
+            "time": "15"
+          },
+          {
+            "gear": 2,
+            "time": "30"
+          },
+          {
+            "gear": 3,
+            "time": "60"
+          },
+          {
+            "gear": 4,
+            "time": "\u6c38\u4e0d"
+          }
+        ],
+        "paperType": [
+          "1",
+          "3",
+          "5",
+          "2"
+        ],
+        "isSupportCalibration": true,
+        "isSupportWifi": false,
+        "isSupport5GWifi": false,
+        "isSupportMqtt": false,
+        "cutterType": "NONE",
+        "isSupportCutter": false,
+        "paccuracyName": "203",
+        "paccuracy": 8,
+        "rfidNotSupportVersions": [
+          "1.01",
+          "1.02",
+          "1.03",
+          "1.04",
+          "2.01",
+          "2.02",
+          "2.03",
+          "2.04",
+          "2.05",
+          "2.06",
+          "2.07",
+          "2.08",
+          "2.09",
+          "3.01",
+          "5.01",
+          "5.02",
+          "6.00",
+          "10.01",
+          "20.01",
+          "21.01",
+          "30.01",
+          "31.01",
+          "32.01",
+          "33.01",
+          "35.01"
+        ],
+        "rfidType": 1,
+        "solubilitySetDefault": 3,
+        "solubilitySetEnd": 5,
+        "solubilitySetStart": 1,
+        "widthSetStart": 10,
+        "widthSetMiddle": null,
+        "widthSetEnd": 48,
+        "wifiNotSupportVersions": [],
+        "description": "\u529f\u80fd\u4f18\u5316",
+        "version": "40.36",
+        "url": "https://oss-print.niimbot.com/public_resources/font/17377050df5429d871f82672a4d29cd2.bin",
+        "isUpdate": false,
+        "updateModel": 1,
+        "md5": "55760C0D"
+      },
+      "code": 1,
+      "status_code": 1,
+      "message": "\u6210\u529f",
+      "time": 1793011152467
+    }
+  },
+  {
+    "request": {
+      "machineName": "B21-C2B",
+      "firmVersion": "40.36"
+    },
+    "response": {
+      "data": {
+        "hardwareName": "B21-C2B",
+        "isCalibration": true,
+        "isAutoShutdown": true,
+        "paperTypeNames": [
+          "\u95f4\u9699\u7eb8",
+          "\u8fde\u7eed\u7eb8",
+          "\u900f\u660e\u7eb8",
+          "\u9ed1\u6807\u7eb8"
+        ],
+        "shutdownTimes": [
+          {
+            "gear": 1,
+            "time": "15"
+          },
+          {
+            "gear": 2,
+            "time": "30"
+          },
+          {
+            "gear": 3,
+            "time": "60"
+          },
+          {
+            "gear": 4,
+            "time": "\u6c38\u4e0d"
+          }
+        ],
+        "paperType": [
+          "1",
+          "3",
+          "5",
+          "2"
+        ],
+        "isSupportCalibration": true,
+        "isSupportWifi": false,
+        "isSupport5GWifi": false,
+        "isSupportMqtt": false,
+        "cutterType": "NONE",
+        "isSupportCutter": false,
+        "paccuracyName": "203",
+        "paccuracy": 8,
+        "rfidNotSupportVersions": [
+          "1.01",
+          "1.02",
+          "1.03",
+          "1.04",
+          "2.01",
+          "2.02",
+          "2.03",
+          "2.04",
+          "2.05",
+          "2.06",
+          "2.07",
+          "2.08",
+          "2.09",
+          "3.01",
+          "5.01",
+          "5.02",
+          "6.00",
+          "10.01",
+          "20.01",
+          "21.01",
+          "30.01",
+          "31.01",
+          "32.01",
+          "33.01",
+          "35.01"
+        ],
+        "rfidType": 1,
+        "solubilitySetDefault": 3,
+        "solubilitySetEnd": 5,
+        "solubilitySetStart": 1,
+        "widthSetStart": 10,
+        "widthSetMiddle": null,
+        "widthSetEnd": 48,
+        "wifiNotSupportVersions": []
+      },
+      "code": 1,
+      "status_code": 1,
+      "message": "\u6210\u529f",
+      "time": 1793011152648
+    }
+  }
+]
