@@ -1,6 +1,6 @@
 # Experiment log
 
-All dates below are 2026-10-26 unless stated. One complete 640-row sparse page has now been sent and the owner confirmed printed lines. Reserve one label against the ten-label allowance; actual feed/alignment confirmation is pending. Other diagnostics stopped before image rows. No firmware writes.
+All dates below are 2026-10-26 unless stated. One complete 640-row sparse page has now been sent and the owner confirmed printed lines crossing a gap. Physical labels advanced are not yet counted; do not equate one logical page with one consumed label. Further prints are held for alignment/feed measurements and the ten-label budget. Other diagnostics stopped before image rows. No firmware writes.
 
 | ID | Action | Result | Conclusion / next step |
 |---|---|---|---|
@@ -36,3 +36,5 @@ T04 (11:04:05 UTC): Attempted one sparse continuous page. Start and PageStart ac
 T05 (11:04:44 UTC): Corrected sparse continuous-page test transmitted 640 rows, 384 dots wide, density 3; at most 34 black pixels per row. PageEnd accepted. Status advanced to completed page 1 with print/feed 100/100 (`00016464031e0001`). PrintEnd accepted. Owner explicitly confirmed: “lines were printed”. No firmware modification. Evidence: 2026-10-26-continuous-sparse-page-corrected.json. Immediate gap-setting restoration returned 00; a separate bounded restoration command was subsequently acknowledged and read back label type 1, density 3, firmware 40.36 (2026-10-26-post-print-restore.json). Added up to three bounded restoration attempts for future tests. Physical feed/alignment and darkness question is pending. No further page sent.
 
 Validation after T05: eight unit tests pass, including two-byte page-size acknowledgement, explicit zero-ACK rejection, error-stage preservation, and rejection of firmware/calibration commands and oversized/dense raster rows. These tests do not prove photo quality or photobooth integration.
+
+T05 physical follow-up: owner first selected “Both happened” (crossed gap and extra feed), then clarified “Ink crossed the gap” and supplied a photo showing vertical strokes reaching the sticker boundary. Treat extra-label count as unresolved, not disproven. Thin strokes were intentional: one pixel each, rows 60 through 579. The short bars were at rows 60–61 and 578–579. Request measurements from sticker top to the small dash, gap width, and stickers advanced before another print. Continuous-mode acceptance is proven, die-cut alignment is failed, photo darkness remains untested. No change to photobooth's default paper mode has been made.

@@ -2,7 +2,7 @@
 
 Target: NIIMBOT B21 C2B, model 775, hardware 40.10, firmware 40.36, 50 x 80 mm third-party labels. Success requires a physically verified print through the photobooth and a demonstrated return to stock if firmware is modified.
 
-**Breakthrough, 26 October:** the owner physically confirmed printed lines on the third-party roll using continuous-paper mode (label type 3), with stock firmware unchanged. Gap-label mode (type 1) returned WriteRfidFail at job start after a normal reboot. This is a software-setting workaround, not a firmware jailbreak. Photo quality, gap alignment and photobooth integration remain unverified. Gap mode was successfully restored and read back after the test; the immediate restoration had initially been rejected, so the diagnostic now has bounded restoration retries.
+**Breakthrough, 26 October:** the owner physically confirmed printed lines on the third-party roll using continuous-paper mode (label type 3), with stock firmware unchanged. Gap-label mode (type 1) returned WriteRfidFail at job start after a normal reboot. This is a software-setting workaround, not a firmware jailbreak. **The owner subsequently confirmed ink crossed a label gap and supplied a photo. Alignment has failed; this is not ready for normal photobooth use.** Photo quality and photobooth integration remain unverified. Gap mode was successfully restored and read back after the test; the immediate restoration had initially been rejected, so the diagnostic now has bounded restoration retries.
 
 ## Branches
 
