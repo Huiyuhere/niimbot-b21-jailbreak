@@ -1,0 +1,325 @@
+{
+  "time": "2026-10-26T11:04:05.210424+00:00",
+  "firmware_written": false,
+  "image_rows_sent": 0,
+  "print_start_attempts": 1,
+  "trace": [
+    {
+      "time": "2026-10-26T11:04:05.450823+00:00",
+      "stage": "set-existing-density",
+      "direction": "tx",
+      "hex": "555521010323aaaa"
+    },
+    {
+      "time": "2026-10-26T11:04:05.476357+00:00",
+      "stage": "set-existing-density",
+      "direction": "rx",
+      "command": "0x31",
+      "data": "01"
+    },
+    {
+      "time": "2026-10-26T11:04:05.476432+00:00",
+      "stage": "set-test-label-type",
+      "direction": "tx",
+      "hex": "555523010321aaaa"
+    },
+    {
+      "time": "2026-10-26T11:04:05.502125+00:00",
+      "stage": "set-test-label-type",
+      "direction": "rx",
+      "command": "0x33",
+      "data": "01"
+    },
+    {
+      "time": "2026-10-26T11:04:05.502202+00:00",
+      "stage": "print-start",
+      "direction": "tx",
+      "hex": "555501070001000000000007aaaa"
+    },
+    {
+      "time": "2026-10-26T11:04:05.524663+00:00",
+      "stage": "print-start",
+      "direction": "rx",
+      "command": "0x2",
+      "data": "01"
+    },
+    {
+      "time": "2026-10-26T11:04:05.524727+00:00",
+      "stage": "page-start",
+      "direction": "tx",
+      "hex": "555503010103aaaa"
+    },
+    {
+      "time": "2026-10-26T11:04:05.551234+00:00",
+      "stage": "page-start",
+      "direction": "rx",
+      "command": "0x4",
+      "data": "01"
+    },
+    {
+      "time": "2026-10-26T11:04:05.551301+00:00",
+      "stage": "page-size",
+      "direction": "tx",
+      "hex": "5555130602800180000117aaaa"
+    },
+    {
+      "time": "2026-10-26T11:04:05.577338+00:00",
+      "stage": "page-size",
+      "direction": "rx",
+      "command": "0x14",
+      "data": "0100"
+    },
+    {
+      "time": "2026-10-26T11:04:05.577724+00:00",
+      "stage": "print-end-cleanup",
+      "direction": "tx",
+      "hex": "5555f30101f3aaaa"
+    },
+    {
+      "time": "2026-10-26T11:04:05.602964+00:00",
+      "stage": "print-end-cleanup",
+      "direction": "rx",
+      "command": "0xf4",
+      "data": "01"
+    },
+    {
+      "time": "2026-10-26T11:04:05.603025+00:00",
+      "stage": "restore-label-type",
+      "direction": "tx",
+      "hex": "555523010123aaaa"
+    },
+    {
+      "time": "2026-10-26T11:04:05.626778+00:00",
+      "stage": "restore-label-type",
+      "direction": "rx",
+      "command": "0x33",
+      "data": "01"
+    }
+  ],
+  "requested_label_type": 3,
+  "before": {
+    "captured_at": "2026-10-26T11:04:05.229291+00:00",
+    "transport": "USB serial",
+    "firmware_written": false,
+    "labels_requested": 0,
+    "handshake": "03",
+    "model_id": 775,
+    "firmware_version": "40.36",
+    "hardware_version": "40.10",
+    "density": 3,
+    "label_type": 1,
+    "battery_level": 4,
+    "heartbeat_identity": {
+      "hardware_version": "40.10",
+      "firmware_version": "40.36",
+      "printhead_width_dots": 384,
+      "resolution_class": 2,
+      "printhead_alignment": 2,
+      "supports_rfid": true,
+      "supports_write_rfid": false
+    },
+    "paper_status": {
+      "lid_closed": true,
+      "battery_percent": 100,
+      "paper_inserted": true,
+      "rfid_recognized": false
+    },
+    "trace": [
+      {
+        "direction": "tx",
+        "hex": "5555c10101c1aaaa"
+      },
+      {
+        "direction": "rx",
+        "command": "0xc2",
+        "data": "03"
+      },
+      {
+        "direction": "tx",
+        "hex": "555540010849aaaa"
+      },
+      {
+        "direction": "rx",
+        "command": "0x48",
+        "data": "0307"
+      },
+      {
+        "direction": "tx",
+        "hex": "555540010948aaaa"
+      },
+      {
+        "direction": "rx",
+        "command": "0x49",
+        "data": "2824"
+      },
+      {
+        "direction": "tx",
+        "hex": "555540010c4daaaa"
+      },
+      {
+        "direction": "rx",
+        "command": "0x4c",
+        "data": "280a"
+      },
+      {
+        "direction": "tx",
+        "hex": "555540010140aaaa"
+      },
+      {
+        "direction": "rx",
+        "command": "0x41",
+        "data": "03"
+      },
+      {
+        "direction": "tx",
+        "hex": "555540010342aaaa"
+      },
+      {
+        "direction": "rx",
+        "command": "0x43",
+        "data": "01"
+      },
+      {
+        "direction": "tx",
+        "hex": "555540010a4baaaa"
+      },
+      {
+        "direction": "rx",
+        "command": "0x4a",
+        "data": "04"
+      },
+      {
+        "direction": "tx",
+        "hex": "5555dc0103deaaaa"
+      },
+      {
+        "direction": "rx",
+        "command": "0xde",
+        "data": "280a2824018002020100"
+      },
+      {
+        "direction": "tx",
+        "hex": "5555dc0101dcaaaa"
+      },
+      {
+        "direction": "rx",
+        "command": "0xdd",
+        "data": "20d60058005800005600040000"
+      }
+    ]
+  },
+  "outcome": "Job start accepted; no image transmitted. Later stages untested.",
+  "error": "page-size: unexpected acknowledgement 0100",
+  "after": {
+    "captured_at": "2026-10-26T11:04:05.626845+00:00",
+    "transport": "USB serial",
+    "firmware_written": false,
+    "labels_requested": 0,
+    "handshake": "03",
+    "model_id": 775,
+    "firmware_version": "40.36",
+    "hardware_version": "40.10",
+    "density": 3,
+    "label_type": 1,
+    "battery_level": 4,
+    "heartbeat_identity": {
+      "hardware_version": "40.10",
+      "firmware_version": "40.36",
+      "printhead_width_dots": 384,
+      "resolution_class": 2,
+      "printhead_alignment": 2,
+      "supports_rfid": true,
+      "supports_write_rfid": false
+    },
+    "paper_status": {
+      "lid_closed": true,
+      "battery_percent": 100,
+      "paper_inserted": true,
+      "rfid_recognized": false
+    },
+    "trace": [
+      {
+        "direction": "tx",
+        "hex": "5555c10101c1aaaa"
+      },
+      {
+        "direction": "rx",
+        "command": "0xc2",
+        "data": "03"
+      },
+      {
+        "direction": "tx",
+        "hex": "555540010849aaaa"
+      },
+      {
+        "direction": "rx",
+        "command": "0x48",
+        "data": "0307"
+      },
+      {
+        "direction": "tx",
+        "hex": "555540010948aaaa"
+      },
+      {
+        "direction": "rx",
+        "command": "0x49",
+        "data": "2824"
+      },
+      {
+        "direction": "tx",
+        "hex": "555540010c4daaaa"
+      },
+      {
+        "direction": "rx",
+        "command": "0x4c",
+        "data": "280a"
+      },
+      {
+        "direction": "tx",
+        "hex": "555540010140aaaa"
+      },
+      {
+        "direction": "rx",
+        "command": "0x41",
+        "data": "03"
+      },
+      {
+        "direction": "tx",
+        "hex": "555540010342aaaa"
+      },
+      {
+        "direction": "rx",
+        "command": "0x43",
+        "data": "01"
+      },
+      {
+        "direction": "tx",
+        "hex": "555540010a4baaaa"
+      },
+      {
+        "direction": "rx",
+        "command": "0x4a",
+        "data": "04"
+      },
+      {
+        "direction": "tx",
+        "hex": "5555dc0103deaaaa"
+      },
+      {
+        "direction": "rx",
+        "command": "0xde",
+        "data": "280a2824018002020100"
+      },
+      {
+        "direction": "tx",
+        "hex": "5555dc0101dcaaaa"
+      },
+      {
+        "direction": "rx",
+        "command": "0xdd",
+        "data": "20d60058005800005600040000"
+      }
+    ]
+  },
+  "settings_unchanged": true
+}

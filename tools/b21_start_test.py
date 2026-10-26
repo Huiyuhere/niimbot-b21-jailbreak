@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""One B1 job-start diagnostic; no image, firmware, tag or calibration writes."""
+"""One bounded B1 diagnostic; optional sparse page, never firmware/tag/calibration writes."""
 import argparse
 from datetime import datetime, timezone
 from functools import reduce
@@ -10,11 +10,16 @@ import time
 from b21_probe import ReadOnlyProbe, collect, take_packets
 
 def packet(command, data):
-    # Only unchanged normal settings and one-page B1 start/end are allowed.
+    # Only bounded normal settings and a single 384 x 640 page are allowed.
     allowed = {0x21: {bytes([v]) for v in range(1, 6)},
                0x23: {bytes([v]) for v in (1, 2, 3, 5)},
-               0x01: {bytes.fromhex('00010000000000')}, 0xF3: {b'\x01'}}
-    if data not in allowed.get(command, set()):
+               0x01: {bytes.fromhex('00010000000000')}, 0xF3: {b'\x01'},
+               0x03: {b'\x01'}, 0x13: {bytes.fromhex('028001800001')},
+               0xE3: {b'\x01'}, 0xA3: {b'\x01'}}
+    row_ok = (command == 0x85 and len(data) == 54 and int.from_bytes(data[:2], 'big') < 640
+              and data[5] == 1 and sum(x.bit_count() for x in data[6:]) <= 64
+              and list(data[2:5]) == [sum(x.bit_count() for x in data[6+i*16:22+i*16]) for i in range(3)])
+    if not row_ok and data not in allowed.get(command, set()):
         raise ValueError('Not an allowed diagnostic packet')
     return bytes([85, 85, command, len(data)]) + data + bytes([
         reduce(xor, data, command ^ len(data)), 170, 170])
@@ -24,8 +29,10 @@ def exchange(port, trace, stage, command, data, response):
     trace.append(dict(time=datetime.now(timezone.utc).isoformat(), stage=stage,
                       direction='tx', hex=raw.hex()))
     port.write(raw)
-    buf = bytearray()
-    deadline = time.monotonic() + 3
+    if not hasattr(port, '_diagnostic_rx_buffer'):
+        port._diagnostic_rx_buffer = bytearray()
+    buf = port._diagnostic_rx_buffer
+    deadline = time.monotonic() + (.02 if response is None else 3)
     while time.monotonic() < deadline:
         buf.extend(port.read(512))
         for code, payload in take_packets(buf):
@@ -35,9 +42,12 @@ def exchange(port, trace, stage, command, data, response):
                 name = 'WriteRfidFail' if payload == b'\x14' else 'unmapped'
                 raise RuntimeError(f'{stage}: printer error {payload.hex()} ({name})')
             if code == response:
-                if payload != b'\x01':
+                valid_ack = payload == b'\x01' or (command == 0x13 and payload == b'\x01\x00')
+                if command != 0xA3 and not valid_ack:
                     raise RuntimeError(f'{stage}: unexpected acknowledgement {payload.hex()}')
-                return
+                return payload
+    if response is None:
+        return
     raise TimeoutError(f'{stage}: no response {response:#x}')
 
 def main():
@@ -45,13 +55,16 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--port', required=True)
     ap.add_argument('--output', required=True, type=Path)
+    ap.add_argument('--label-type', type=int, choices=(1, 3), default=1,
+                    help='1 gap or 3 continuous; original gap setting restored afterwards')
+    ap.add_argument('--print-page', action='store_true', help='Send one sparse page after accepted start')
     args = ap.parse_args()
     # Reserve evidence file before opening the device; never overwrite a result.
     with args.output.open('x') as evidence:
         result = dict(time=datetime.now(timezone.utc).isoformat(), firmware_written=False,
-                      image_rows_sent=0, print_start_attempts=0, trace=[])
+                      image_rows_sent=0, print_start_attempts=0, trace=[], requested_label_type=args.label_type)
         try:
-            with serial.Serial(args.port, 115200, timeout=.1, write_timeout=2, exclusive=True) as port:
+            with serial.Serial(args.port, 115200, timeout=.02, write_timeout=2, exclusive=True) as port:
                 before = collect(ReadOnlyProbe(port))
                 result['before'] = before
                 if (before.get('model_id'), before.get('firmware_version'), before.get('hardware_version')) != (775, '40.36', '40.10'):
@@ -63,21 +76,63 @@ def main():
                 if density != 3 or label != 1:
                     raise RuntimeError('Expected unchanged density 3 / gap label 1; stopping')
                 started = False
+                label_attempted = False
                 try:
                     exchange(port, result['trace'], 'set-existing-density', 0x21, bytes([density]), 0x31)
-                    exchange(port, result['trace'], 'set-existing-label-type', 0x23, bytes([label]), 0x33)
+                    label_attempted = True
+                    exchange(port, result['trace'], 'set-test-label-type', 0x23, bytes([args.label_type]), 0x33)
                     started = True
                     result['print_start_attempts'] = 1
                     exchange(port, result['trace'], 'print-start', 1, bytes.fromhex('00010000000000'), 2)
                     result['outcome'] = 'Job start accepted; no image transmitted. Later stages untested.'
+                    if args.print_page:
+                        exchange(port, result['trace'], 'page-start', 3, b'\x01', 4)
+                        exchange(port, result['trace'], 'page-size', 0x13, bytes.fromhex('028001800001'), 0x14)
+                        for row in range(640):
+                            bitmap = bytearray(48)
+                            # Two thin vertical marks, short bars near top and bottom.
+                            pixels = [80, 303] if 60 <= row < 580 else []
+                            if row in (60, 61, 578, 579):
+                                pixels += list(range(176, 208))
+                            for pixel in pixels:
+                                bitmap[pixel // 8] |= 1 << (7 - pixel % 8)
+                            counts = bytes(sum(x.bit_count() for x in bitmap[i*16:(i+1)*16]) for i in range(3))
+                            data = row.to_bytes(2, 'big') + counts + b'\x01' + bitmap
+                            exchange(port, result['trace'], f'row-{row}', 0x85, data, None)
+                            result['image_rows_sent'] += 1
+                        exchange(port, result['trace'], 'page-end', 0xE3, b'\x01', 0xE4)
+                        result['outcome'] = 'Page sent; completion unconfirmed'
+                        deadline = time.monotonic() + 15
+                        while time.monotonic() < deadline:
+                            status = exchange(port, result['trace'], 'print-status', 0xA3, b'\x01', 0xB3)
+                            if len(status) == 10 and status[6]:
+                                raise RuntimeError(f'print-status error {status[6]}')
+                            if len(status) >= 4 and int.from_bytes(status[:2], 'big') >= 1 and status[2] == 100 and status[3] == 100:
+                                result['outcome'] = 'Device reports page completed; physical confirmation required'
+                                break
+                            time.sleep(.25)
                 except Exception as error:
                     result['error'] = str(error)
+                    result['outcome'] = 'Stopped; see exact stage/error and transmitted row count'
                 finally:
                     if started:
                         try:
                             exchange(port, result['trace'], 'print-end-cleanup', 0xF3, b'\x01', 0xF4)
                         except Exception as error:
                             result['cleanup_error'] = str(error)
+                    if label_attempted and args.label_type != label:
+                        result['restore_attempts'] = []
+                        for attempt in range(3):
+                            try:
+                                exchange(port, result['trace'], f'restore-label-type-{attempt+1}', 0x23, bytes([label]), 0x33)
+                                result['restore_attempts'].append('acknowledged')
+                                break
+                            except Exception as error:
+                                result['restore_attempts'].append(str(error))
+                                if attempt == 2:
+                                    result['restore_error'] = str(error)
+                                else:
+                                    time.sleep(1)
                     result['after'] = collect(ReadOnlyProbe(port))
                     result['settings_unchanged'] = all(result['after'].get(k) == before.get(k)
                                                        for k in ('density', 'label_type', 'firmware_version'))

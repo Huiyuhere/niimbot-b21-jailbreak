@@ -1,0 +1,284 @@
+{
+  "time": "2026-10-26T11:02:26.297577+00:00",
+  "firmware_written": false,
+  "image_rows_sent": 0,
+  "print_start_attempts": 1,
+  "trace": [
+    {
+      "time": "2026-10-26T11:02:27.258195+00:00",
+      "stage": "set-existing-density",
+      "direction": "tx",
+      "hex": "555521010323aaaa"
+    },
+    {
+      "time": "2026-10-26T11:02:27.359670+00:00",
+      "stage": "set-existing-density",
+      "direction": "rx",
+      "command": "0x31",
+      "data": "01"
+    },
+    {
+      "time": "2026-10-26T11:02:27.359752+00:00",
+      "stage": "set-existing-label-type",
+      "direction": "tx",
+      "hex": "555523010123aaaa"
+    },
+    {
+      "time": "2026-10-26T11:02:27.464649+00:00",
+      "stage": "set-existing-label-type",
+      "direction": "rx",
+      "command": "0x33",
+      "data": "01"
+    },
+    {
+      "time": "2026-10-26T11:02:27.464719+00:00",
+      "stage": "print-start",
+      "direction": "tx",
+      "hex": "555501070001000000000007aaaa"
+    },
+    {
+      "time": "2026-10-26T11:02:27.570656+00:00",
+      "stage": "print-start",
+      "direction": "rx",
+      "command": "0xdb",
+      "data": "14"
+    },
+    {
+      "time": "2026-10-26T11:02:27.570794+00:00",
+      "stage": "print-end-cleanup",
+      "direction": "tx",
+      "hex": "5555f30101f3aaaa"
+    },
+    {
+      "time": "2026-10-26T11:02:27.681071+00:00",
+      "stage": "print-end-cleanup",
+      "direction": "rx",
+      "command": "0xf4",
+      "data": "01"
+    }
+  ],
+  "before": {
+    "captured_at": "2026-10-26T11:02:26.315182+00:00",
+    "transport": "USB serial",
+    "firmware_written": false,
+    "labels_requested": 0,
+    "handshake": "03",
+    "model_id": 775,
+    "firmware_version": "40.36",
+    "hardware_version": "40.10",
+    "density": 3,
+    "label_type": 1,
+    "battery_level": 4,
+    "heartbeat_identity": {
+      "hardware_version": "40.10",
+      "firmware_version": "40.36",
+      "printhead_width_dots": 384,
+      "resolution_class": 2,
+      "printhead_alignment": 2,
+      "supports_rfid": true,
+      "supports_write_rfid": false
+    },
+    "paper_status": {
+      "lid_closed": true,
+      "battery_percent": 100,
+      "paper_inserted": true,
+      "rfid_recognized": false
+    },
+    "trace": [
+      {
+        "direction": "tx",
+        "hex": "5555c10101c1aaaa"
+      },
+      {
+        "direction": "rx",
+        "command": "0xc2",
+        "data": "03"
+      },
+      {
+        "direction": "tx",
+        "hex": "555540010849aaaa"
+      },
+      {
+        "direction": "rx",
+        "command": "0x48",
+        "data": "0307"
+      },
+      {
+        "direction": "tx",
+        "hex": "555540010948aaaa"
+      },
+      {
+        "direction": "rx",
+        "command": "0x49",
+        "data": "2824"
+      },
+      {
+        "direction": "tx",
+        "hex": "555540010c4daaaa"
+      },
+      {
+        "direction": "rx",
+        "command": "0x4c",
+        "data": "280a"
+      },
+      {
+        "direction": "tx",
+        "hex": "555540010140aaaa"
+      },
+      {
+        "direction": "rx",
+        "command": "0x41",
+        "data": "03"
+      },
+      {
+        "direction": "tx",
+        "hex": "555540010342aaaa"
+      },
+      {
+        "direction": "rx",
+        "command": "0x43",
+        "data": "01"
+      },
+      {
+        "direction": "tx",
+        "hex": "555540010a4baaaa"
+      },
+      {
+        "direction": "rx",
+        "command": "0x4a",
+        "data": "04"
+      },
+      {
+        "direction": "tx",
+        "hex": "5555dc0103deaaaa"
+      },
+      {
+        "direction": "rx",
+        "command": "0xde",
+        "data": "280a2824018002020100"
+      },
+      {
+        "direction": "tx",
+        "hex": "5555dc0101dcaaaa"
+      },
+      {
+        "direction": "rx",
+        "command": "0xdd",
+        "data": "20e20058005800005600040000"
+      }
+    ]
+  },
+  "error": "print-start: printer error 14 (WriteRfidFail)",
+  "after": {
+    "captured_at": "2026-10-26T11:02:27.681503+00:00",
+    "transport": "USB serial",
+    "firmware_written": false,
+    "labels_requested": 0,
+    "handshake": "03",
+    "model_id": 775,
+    "firmware_version": "40.36",
+    "hardware_version": "40.10",
+    "density": 3,
+    "label_type": 1,
+    "battery_level": 4,
+    "heartbeat_identity": {
+      "hardware_version": "40.10",
+      "firmware_version": "40.36",
+      "printhead_width_dots": 384,
+      "resolution_class": 2,
+      "printhead_alignment": 2,
+      "supports_rfid": true,
+      "supports_write_rfid": false
+    },
+    "paper_status": {
+      "lid_closed": true,
+      "battery_percent": 100,
+      "paper_inserted": true,
+      "rfid_recognized": false
+    },
+    "trace": [
+      {
+        "direction": "tx",
+        "hex": "5555c10101c1aaaa"
+      },
+      {
+        "direction": "rx",
+        "command": "0xc2",
+        "data": "03"
+      },
+      {
+        "direction": "tx",
+        "hex": "555540010849aaaa"
+      },
+      {
+        "direction": "rx",
+        "command": "0x48",
+        "data": "0307"
+      },
+      {
+        "direction": "tx",
+        "hex": "555540010948aaaa"
+      },
+      {
+        "direction": "rx",
+        "command": "0x49",
+        "data": "2824"
+      },
+      {
+        "direction": "tx",
+        "hex": "555540010c4daaaa"
+      },
+      {
+        "direction": "rx",
+        "command": "0x4c",
+        "data": "280a"
+      },
+      {
+        "direction": "tx",
+        "hex": "555540010140aaaa"
+      },
+      {
+        "direction": "rx",
+        "command": "0x41",
+        "data": "03"
+      },
+      {
+        "direction": "tx",
+        "hex": "555540010342aaaa"
+      },
+      {
+        "direction": "rx",
+        "command": "0x43",
+        "data": "01"
+      },
+      {
+        "direction": "tx",
+        "hex": "555540010a4baaaa"
+      },
+      {
+        "direction": "rx",
+        "command": "0x4a",
+        "data": "04"
+      },
+      {
+        "direction": "tx",
+        "hex": "5555dc0103deaaaa"
+      },
+      {
+        "direction": "rx",
+        "command": "0xde",
+        "data": "280a2824018002020100"
+      },
+      {
+        "direction": "tx",
+        "hex": "5555dc0101dcaaaa"
+      },
+      {
+        "direction": "rx",
+        "command": "0xdd",
+        "data": "20e40058005800005600040000"
+      }
+    ]
+  },
+  "settings_unchanged": true
+}
