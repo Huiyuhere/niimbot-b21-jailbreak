@@ -1,6 +1,6 @@
 # Experiment log
 
-All dates below are 2026-10-26 unless stated. No new print jobs or firmware writes have been sent in this repository's work. Current label budget consumed: 0 of 10.
+All dates below are 2026-10-26 unless stated. One job-start diagnostic has been sent; no image rows or firmware writes. Physical labels consumed: 0 of 10, confirmed by owner.
 
 | ID | Action | Result | Conclusion / next step |
 |---|---|---|---|
@@ -18,3 +18,7 @@ For each subsequent experiment record timestamp, hypothesis, source commit, inpu
 R02: Downloaded stock 40.36 (113,680 bytes). Full-file CRC32 55760c0d matches the API field named md5 (which is only eight hex digits). SHA-256 is in the manifest. The image begins with a vector table, not the Pro firmware header. Directly running the Pro patcher on this file would be inappropriate. No image was sent to the printer.
 
 R03: Expanded public-source search across GitHub, Reddit, Stack Overflow, Substack and multilingual queries. Found analogous B1 fatal 0x14 RFID rejection and model-specific B1/Pro patches, but no verified model-775/HW40.10/FW40.36 jailbreak in the sources inspected. Retrieved the niimprint issue 34 comments through the GitHub API to inspect comments hidden in the rendered page. Public custom-firmware directory returned 401; private Discord contents remain uninspected. See RESEARCH.md for source matrix, exact failure interpretation and next-test sequence. No printer commands or label consumption in this research step.
+
+T01 (10:55 UTC): `tools/b21_start_test.py` used the NIIMBLUE 0.47.1 B1 opening sequence over USB. Unchanged density 3 and gap-label type 1 were acknowledged with 01. PrintStart command `555501070001000000000007aaaa` received response command 0x02 payload 00. Script stopped before PageStart or image rows; it did not capture an error 0xDB/0x14 in this attempt. PrintEnd cleanup received 0xF4 payload 01. Before/after identity, density and label type agree; paper present, lid closed, RFID unrecognised. Owner confirmed no movement or error light. Conclusion: this ordinary gap-label job is refused at job start; exact firmware reason remains inferred, not proven by response 00 alone. Evidence: `evidence/2026-10-26-usb-start-test.json`. No retry occurred. Zero labels consumed.
+
+A01: Offline hash-verified stock analysis located the debug `test rfidMode` handler and a RAM byte it selects, plus separate RFID read diagnostic paths. No command was executed and no firmware was altered. See OFFLINE-40.36.md for addresses, evidence and unresolved effects. This is a candidate for further analysis, not an established bypass.
