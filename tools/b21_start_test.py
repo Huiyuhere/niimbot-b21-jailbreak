@@ -9,6 +9,18 @@ from pathlib import Path
 import time
 from b21_probe import ReadOnlyProbe, collect, take_packets
 
+def decode_print_status(payload):
+    if len(payload) not in (4, 8, 10):
+        raise ValueError(f'Unknown print-status length {len(payload)}')
+    page = int.from_bytes(payload[:2], 'big')
+    printed, fed = payload[2:4]
+    if printed > 100 or fed > 100:
+        raise ValueError('Invalid print/feed percentage')
+    # Stock 40.36 handler 0x0800c466 emits eight bytes; error is byte 6.
+    # Bytes 4-5 are not a measured physical feed distance.
+    error = payload[6] if len(payload) in (8, 10) else 0
+    return {'page': page, 'print_percent': printed, 'feed_percent': fed, 'error': error}
+
 def packet(command, data):
     # Only bounded normal settings and a single 384 x 640 page are allowed.
     allowed = {0x21: {bytes([v]) for v in range(1, 6)},
@@ -105,9 +117,10 @@ def main():
                         deadline = time.monotonic() + 15
                         while time.monotonic() < deadline:
                             status = exchange(port, result['trace'], 'print-status', 0xA3, b'\x01', 0xB3)
-                            if len(status) == 10 and status[6]:
-                                raise RuntimeError(f'print-status error {status[6]}')
-                            if len(status) >= 4 and int.from_bytes(status[:2], 'big') >= 1 and status[2] == 100 and status[3] == 100:
+                            parsed = decode_print_status(status)
+                            if parsed['error']:
+                                raise RuntimeError(f"print-status error {parsed['error']}")
+                            if parsed['page'] >= 1 and parsed['print_percent'] == 100 and parsed['feed_percent'] == 100:
                                 result['outcome'] = 'Device reports page completed; physical confirmation required'
                                 break
                             time.sleep(.25)

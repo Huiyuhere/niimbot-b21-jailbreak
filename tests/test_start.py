@@ -2,7 +2,7 @@ import sys
 from pathlib import Path
 import unittest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'tools'))
-from b21_start_test import packet, exchange
+from b21_start_test import packet, exchange, decode_print_status
 
 class FakePort:
     def __init__(self, reply): self.reply = reply
@@ -12,6 +12,12 @@ class FakePort:
         return reply
 
 class StartTests(unittest.TestCase):
+    def test_c2b_eight_byte_status_error_is_not_ignored(self):
+        self.assertEqual(decode_print_status(bytes.fromhex('00016464031e1401'))['error'], 20)
+        self.assertEqual(decode_print_status(bytes.fromhex('00016464031e0001')),
+                         {'page':1,'print_percent':100,'feed_percent':100,'error':0})
+        with self.assertRaises(ValueError): decode_print_status(bytes.fromhex('00016564031e0001'))
+
     def test_b21_two_byte_page_size_ack(self):
         port = FakePort(bytes.fromhex('55551402010017aaaa'))
         self.assertEqual(exchange(port, [], 'size', 0x13, bytes.fromhex('028001800001'), 0x14), b'\x01\x00')

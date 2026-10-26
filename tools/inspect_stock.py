@@ -8,6 +8,7 @@ from capstone import Cs, CS_ARCH_ARM, CS_MODE_THUMB, CS_MODE_LITTLE_ENDIAN
 SHA256 = '25c9ba099339b482b6ba1b515fbf9bdfb32969abf38d6712be39c7c4b294d1a0'
 BASE = 0x08002000
 REGIONS = {
+    'print-status-eight-byte-payload': (0x0800c466, 0x0800c4f4),
     'error-code-mapping': (0x0800e350, 0x0800e43e),
     'rfid-periodic-mode': (0x08015a58, 0x08015ad4),
     'debug-mode-handler': (0x0801795a, 0x08017996),
