@@ -1,8 +1,17 @@
 # B21 C2B third-party paper investigation
 
-Target: NIIMBOT B21 C2B, model 775, hardware 40.10, firmware 40.36, 50 x 80 mm third-party labels. Success requires a physically verified print through the photobooth and a demonstrated return to stock if firmware is modified.
+Target: NIIMBOT B21 C2B, model 775, hardware 40.10, firmware 40.36, third-party 50 × 80 mm labels with approximately 6 mm gaps.
 
-**Breakthrough, 26 October:** the owner physically confirmed printed lines on the third-party roll using continuous-paper mode (label type 3), with stock firmware unchanged. Gap-label mode (type 1) returned WriteRfidFail at job start after a normal reboot. This is a software-setting workaround, not a firmware jailbreak. **The owner subsequently confirmed ink crossed a label gap and supplied a photo. Alignment has failed; this is not ready for normal photobooth use.** Photo quality and photobooth integration remain unverified. Gap mode was successfully restored and read back after the test; the immediate restoration had initially been rejected, so the diagnostic now has bounded restoration retries.
+**Current outcome, 26 October 2026:** stock-firmware continuous-mode printing works on the tested third-party roll. The owner physically verified photobooth images, logo and date, preferred rendering style C, and verified positioning recovery in one paper-reload trial. This is a software-setting workaround, not a firmware jailbreak. Firmware remains unchanged.
+
+Gap-mode job start previously returned WriteRfidFail (20), while a separate positioning command advanced to a label gap. The working photo layout still uses a 72 mm raster and measured feed behavior. Equal top/bottom margins, restart recovery, active gap sensing between continuous jobs and general compatibility are not proven. Historical failures remain in the chronological log.
+
+## Current documentation
+
+- [Methodology and evidence standards](docs/METHODOLOGY.md)
+- [Calibration, reload recovery and margin limits](docs/CALIBRATION.md)
+- [Style C filters, density and DPI](docs/FILTERS-AND-DPI.md)
+- [Photobooth source and deployment instructions](https://github.com/Huiyuhere/yourtypemixer/blob/428bbf4/photobooth/DEPLOYMENT.md)
 
 ## Branches
 
@@ -13,7 +22,7 @@ No firmware changes have been made. Factory data has not been backed up. Officia
 
 ## Confirmed constraints
 
-Owner permits up to ten labels, one job at a time. Opening the case is allowed. Soldering, erasing, factory reset and removal of chip protection are excluded. Preserve original heat/current protections. Stop before firmware writes if restoration cannot be established.
+Earlier label allowances were session-specific and are not standing authorization. Obtain a fresh explicit budget before hardware tests; count blank feeds as well as printed labels, and test one operation at a time. Current scope excludes firmware changes, factory reset and hardware modification. Preserve the working driver and exact request/reply/error/physical-result records.
 
 ## Reproduce read-only identity check
 

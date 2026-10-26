@@ -1,3 +1,7 @@
+# Current plan status
+
+The numbered plan below is historical. Firmware experimentation is not required for the demonstrated stock-firmware workaround and is not currently authorized. See [current methodology](METHODOLOGY.md), [calibration](CALIBRATION.md), and [filters/DPI](FILTERS-AND-DPI.md). Historical paper budgets are exhausted or superseded; obtain a fresh allowance before hardware tests.
+
 # Ordered tests
 
 1. Preserve source baseline and read-only identity evidence on original.
