@@ -26,7 +26,7 @@ def packet(command, data):
     allowed = {0x21: {bytes([v]) for v in range(1, 6)},
                0x23: {bytes([v]) for v in (1, 2, 3, 5)},
                0x01: {bytes.fromhex('00010000000000')}, 0xF3: {b'\x01'},
-               0x03: {b'\x01'}, 0x13: {bytes.fromhex('028001800001'), bytes.fromhex('02b001800001')},
+               0x03: {b'\x01'}, 0x13: {bytes.fromhex('028001800001'), bytes.fromhex('02b001800001'), bytes.fromhex('024001800001')},
                0xE3: {b'\x01'}, 0xA3: {b'\x01'}}
     row_ok = (command == 0x85 and len(data) == 54 and int.from_bytes(data[:2], 'big') < 688
               and data[5] == 1 and sum(x.bit_count() for x in data[6:]) <= 64
@@ -71,13 +71,17 @@ def main():
                     help='1 gap or 3 continuous; original gap setting restored afterwards')
     ap.add_argument('--print-page', action='store_true', help='Send one sparse page after accepted start')
     ap.add_argument('--alignment-86mm', action='store_true', help='86 mm pitch, short interior marks; one page only')
+    ap.add_argument('--observe-cleanup', action='store_true', help='Pause 15 seconds before job end and before restoring paper mode')
+    ap.add_argument('--feed-72mm', action='store_true', help='Experimental 72 mm raster with 10/20 mm marks')
     args = ap.parse_args()
+    if args.feed_72mm and args.alignment_86mm:
+        ap.error('Choose only one experimental geometry')
     # Reserve evidence file before opening the device; never overwrite a result.
     with args.output.open('x') as evidence:
         result = dict(time=datetime.now(timezone.utc).isoformat(), firmware_written=False,
                       image_rows_sent=0, print_start_attempts=0, trace=[], requested_label_type=args.label_type)
-        result['raster_height'] = 688 if args.alignment_86mm else 640
-        result['pattern'] = 'interior-10-to-50mm' if args.alignment_86mm else 'original-sparse'
+        result['raster_height'] = 576 if args.feed_72mm else (688 if args.alignment_86mm else 640)
+        result['pattern'] = 'feed-test-10-to-20mm' if args.feed_72mm else ('interior-10-to-50mm' if args.alignment_86mm else 'original-sparse')
         try:
             with serial.Serial(args.port, 115200, timeout=.02, write_timeout=2, exclusive=True) as port:
                 before = collect(ReadOnlyProbe(port))
@@ -107,7 +111,7 @@ def main():
                         for row in range(result['raster_height']):
                             bitmap = bytearray(48)
                             # Two thin vertical marks, short bars near top and bottom.
-                            top, bottom = (80, 400) if args.alignment_86mm else (60, 578)
+                            top, bottom = (80, 160) if args.feed_72mm else ((80, 400) if args.alignment_86mm else (60, 578))
                             pixels = [80, 303] if top <= row < bottom + 2 else []
                             if row in (top, top + 1, bottom, bottom + 1):
                                 pixels += list(range(176, 208))
@@ -133,11 +137,19 @@ def main():
                     result['error'] = str(error)
                     result['outcome'] = 'Stopped; see exact stage/error and transmitted row count'
                 finally:
+                    if args.observe_cleanup and result.get('image_rows_sent'):
+                        print('OBSERVE: page phase ended; waiting 15 seconds BEFORE PrintEnd', flush=True)
+                        result['trace'].append({'time':datetime.now(timezone.utc).isoformat(),'stage':'observe-before-print-end'})
+                        time.sleep(15)
                     if started:
                         try:
                             exchange(port, result['trace'], 'print-end-cleanup', 0xF3, b'\x01', 0xF4)
                         except Exception as error:
                             result['cleanup_error'] = str(error)
+                    if args.observe_cleanup and result.get('image_rows_sent'):
+                        print('OBSERVE: PrintEnd sent; waiting 15 seconds BEFORE restoring gap mode', flush=True)
+                        result['trace'].append({'time':datetime.now(timezone.utc).isoformat(),'stage':'observe-before-restore'})
+                        time.sleep(15)
                     if label_attempted and args.label_type != label:
                         result['restore_attempts'] = []
                         for attempt in range(3):
