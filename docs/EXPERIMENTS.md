@@ -1,6 +1,6 @@
 # Experiment log
 
-All dates below are 2026-10-26 unless stated. One complete 640-row sparse page has now been sent and the owner confirmed printed lines crossing a gap. Physical labels advanced are not yet counted; do not equate one logical page with one consumed label. Further prints are held for alignment/feed measurements and the ten-label budget. Other diagnostics stopped before image rows. No firmware writes.
+All dates below are 2026-10-26 unless stated. Owner confirmed T05 advanced one sticker. Nine remain of the ten-label allowance before the next test; count physical feed, not just logical pages. No firmware writes.
 
 | ID | Action | Result | Conclusion / next step |
 |---|---|---|---|
@@ -42,3 +42,7 @@ T05 physical follow-up: owner first selected “Both happened” (crossed gap an
 T05 measurement: owner supplied “1.6cm”, interpreted as sticker top to first small dash (confirmation included in follow-up question). Intended first dash position was 60 / 8 = 7.5 mm from raster start. Measured 16 mm implies approximately 8.5 mm starting offset. The last mark at row 579 would consequently land about 80.9 mm from the sticker top, consistent with crossing an 80 mm label. This is approximate geometric evidence, not a calibrated feed correction. Gap width and physical labels advanced remain requested; do not run further feed tests until these are resolved.
 
 A04: Inspected stock eight-byte print-status handler at 0x0800c466. It writes completed-page count, print/feed percentages and error byte 6. The extra two-byte value at payload bytes 4–5 comes from 0x0800f4a8, which accesses queue/buffer state; it is not established as physical paper distance. Do not interpret final value 0x031e as 798 feed dots. Updated diagnostic to check errors in both eight- and ten-byte responses; added regression test. Prior successful trace's error byte was zero, so its completion result remains valid. No device commands sent.
+
+Owner follow-up: gap is 0.6 cm (6 mm), and one sticker advanced during T05. Thus nominal pitch is 80 + 6 = 86 mm. This resolves the measurement hold. Prepared T06 with 688 raster rows (86 mm at 8 dots/mm), interior marks at rows 80/400 (10/50 mm), and blank trailing space. This is a feed/alignment experiment, not a proven compensation: raster length does not by itself prove physical advance, and starting registration must be measured again. One job only; original density and gap setting restored afterward. Nine unit tests passed before execution.
+
+T06 (11:23:45 UTC): Sent all 688 rows in continuous mode; device reported one completed page. Gap-setting restoration first received 00, then succeeded on the second bounded attempt. Readback confirms original density 3, label type 1 and firmware 40.36. Evidence: 2026-10-26-alignment-86mm.json. Physical alignment, upper-mark position and labels advanced are requested and pending. Reserve one additional label; do not assume actual consumption until owner confirms. No further job sent.

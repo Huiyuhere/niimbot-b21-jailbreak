@@ -22,13 +22,13 @@ def decode_print_status(payload):
     return {'page': page, 'print_percent': printed, 'feed_percent': fed, 'error': error}
 
 def packet(command, data):
-    # Only bounded normal settings and a single 384 x 640 page are allowed.
+    # Only bounded normal settings and a single 80 or 86 mm page are allowed.
     allowed = {0x21: {bytes([v]) for v in range(1, 6)},
                0x23: {bytes([v]) for v in (1, 2, 3, 5)},
                0x01: {bytes.fromhex('00010000000000')}, 0xF3: {b'\x01'},
-               0x03: {b'\x01'}, 0x13: {bytes.fromhex('028001800001')},
+               0x03: {b'\x01'}, 0x13: {bytes.fromhex('028001800001'), bytes.fromhex('02b001800001')},
                0xE3: {b'\x01'}, 0xA3: {b'\x01'}}
-    row_ok = (command == 0x85 and len(data) == 54 and int.from_bytes(data[:2], 'big') < 640
+    row_ok = (command == 0x85 and len(data) == 54 and int.from_bytes(data[:2], 'big') < 688
               and data[5] == 1 and sum(x.bit_count() for x in data[6:]) <= 64
               and list(data[2:5]) == [sum(x.bit_count() for x in data[6+i*16:22+i*16]) for i in range(3)])
     if not row_ok and data not in allowed.get(command, set()):
@@ -70,11 +70,14 @@ def main():
     ap.add_argument('--label-type', type=int, choices=(1, 3), default=1,
                     help='1 gap or 3 continuous; original gap setting restored afterwards')
     ap.add_argument('--print-page', action='store_true', help='Send one sparse page after accepted start')
+    ap.add_argument('--alignment-86mm', action='store_true', help='86 mm pitch, short interior marks; one page only')
     args = ap.parse_args()
     # Reserve evidence file before opening the device; never overwrite a result.
     with args.output.open('x') as evidence:
         result = dict(time=datetime.now(timezone.utc).isoformat(), firmware_written=False,
                       image_rows_sent=0, print_start_attempts=0, trace=[], requested_label_type=args.label_type)
+        result['raster_height'] = 688 if args.alignment_86mm else 640
+        result['pattern'] = 'interior-10-to-50mm' if args.alignment_86mm else 'original-sparse'
         try:
             with serial.Serial(args.port, 115200, timeout=.02, write_timeout=2, exclusive=True) as port:
                 before = collect(ReadOnlyProbe(port))
@@ -99,12 +102,14 @@ def main():
                     result['outcome'] = 'Job start accepted; no image transmitted. Later stages untested.'
                     if args.print_page:
                         exchange(port, result['trace'], 'page-start', 3, b'\x01', 4)
-                        exchange(port, result['trace'], 'page-size', 0x13, bytes.fromhex('028001800001'), 0x14)
-                        for row in range(640):
+                        size = result['raster_height'].to_bytes(2,'big') + bytes.fromhex('01800001')
+                        exchange(port, result['trace'], 'page-size', 0x13, size, 0x14)
+                        for row in range(result['raster_height']):
                             bitmap = bytearray(48)
                             # Two thin vertical marks, short bars near top and bottom.
-                            pixels = [80, 303] if 60 <= row < 580 else []
-                            if row in (60, 61, 578, 579):
+                            top, bottom = (80, 400) if args.alignment_86mm else (60, 578)
+                            pixels = [80, 303] if top <= row < bottom + 2 else []
+                            if row in (top, top + 1, bottom, bottom + 1):
                                 pixels += list(range(176, 208))
                             for pixel in pixels:
                                 bitmap[pixel // 8] |= 1 << (7 - pixel % 8)

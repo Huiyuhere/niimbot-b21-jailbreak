@@ -33,7 +33,7 @@ class StartTests(unittest.TestCase):
             exchange(port, [], 'start', 1, bytes.fromhex('00010000000000'), 2)
 
     def test_rejects_unbounded_rows_and_firmware_commands(self):
-        for command, data in [(0x85, (640).to_bytes(2,'big') + bytes([0,0,0,1]) + bytes(48)),
+        for command, data in [(0x85, (688).to_bytes(2,'big') + bytes([0,0,0,1]) + bytes(48)),
                               (0x85, bytes([0,0,128,128,128,1]) + bytes([255])*48),
                               (0xF5, b'\x01'), (0x8e, b'\x01')]:
             with self.assertRaises(ValueError): packet(command,data)
