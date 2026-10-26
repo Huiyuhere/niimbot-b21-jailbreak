@@ -26,7 +26,7 @@ def packet(command, data):
     allowed = {0x21: {bytes([v]) for v in range(1, 6)},
                0x23: {bytes([v]) for v in (1, 2, 3, 5)},
                0x01: {bytes.fromhex('00010000000000')}, 0xF3: {b'\x01'},
-               0x03: {b'\x01'}, 0x13: {bytes.fromhex('028001800001'), bytes.fromhex('02b001800001'), bytes.fromhex('024001800001')},
+               0x03: {b'\x01'}, 0x13: {bytes.fromhex('028001800001'), bytes.fromhex('02b001800001'), bytes.fromhex('024001800001'), bytes.fromhex('00e801800001')},
                0xE3: {b'\x01'}, 0xA3: {b'\x01'}}
     row_ok = (command == 0x85 and len(data) == 54 and int.from_bytes(data[:2], 'big') < 688
               and data[5] == 1 and sum(x.bit_count() for x in data[6:]) <= 64
@@ -73,15 +73,16 @@ def main():
     ap.add_argument('--alignment-86mm', action='store_true', help='86 mm pitch, short interior marks; one page only')
     ap.add_argument('--observe-cleanup', action='store_true', help='Pause 15 seconds before job end and before restoring paper mode')
     ap.add_argument('--feed-72mm', action='store_true', help='Experimental 72 mm raster with 10/20 mm marks')
+    ap.add_argument('--blank-align-29mm', action='store_true', help='One blank 29 mm raster; estimated 43 mm advance including cleanup')
     args = ap.parse_args()
-    if args.feed_72mm and args.alignment_86mm:
+    if sum((args.feed_72mm, args.alignment_86mm, args.blank_align_29mm)) > 1:
         ap.error('Choose only one experimental geometry')
     # Reserve evidence file before opening the device; never overwrite a result.
     with args.output.open('x') as evidence:
         result = dict(time=datetime.now(timezone.utc).isoformat(), firmware_written=False,
                       image_rows_sent=0, print_start_attempts=0, trace=[], requested_label_type=args.label_type)
-        result['raster_height'] = 576 if args.feed_72mm else (688 if args.alignment_86mm else 640)
-        result['pattern'] = 'feed-test-10-to-20mm' if args.feed_72mm else ('interior-10-to-50mm' if args.alignment_86mm else 'original-sparse')
+        result['raster_height'] = 232 if args.blank_align_29mm else (576 if args.feed_72mm else (688 if args.alignment_86mm else 640))
+        result['pattern'] = 'blank-alignment' if args.blank_align_29mm else ('feed-test-10-to-20mm' if args.feed_72mm else ('interior-10-to-50mm' if args.alignment_86mm else 'original-sparse'))
         try:
             with serial.Serial(args.port, 115200, timeout=.02, write_timeout=2, exclusive=True) as port:
                 before = collect(ReadOnlyProbe(port))
@@ -115,6 +116,8 @@ def main():
                             pixels = [80, 303] if top <= row < bottom + 2 else []
                             if row in (top, top + 1, bottom, bottom + 1):
                                 pixels += list(range(176, 208))
+                            if args.blank_align_29mm:
+                                pixels = []
                             for pixel in pixels:
                                 bitmap[pixel // 8] |= 1 << (7 - pixel % 8)
                             counts = bytes(sum(x.bit_count() for x in bitmap[i*16:(i+1)*16]) for i in range(3))
