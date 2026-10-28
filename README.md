@@ -2,16 +2,17 @@
 
 Target: NIIMBOT B21 C2B, model 775, hardware 40.10, firmware 40.36, third-party 50 × 80 mm labels with approximately 6 mm gaps.
 
-**Current outcome, 26 October 2026:** stock-firmware continuous-mode printing works on the tested third-party roll. The owner physically verified photobooth images, logo and date, preferred rendering style C, and verified positioning recovery in one paper-reload trial. This is a software-setting workaround, not a firmware jailbreak. Firmware remains unchanged.
+**Current outcome, 28 October 2026:** the owner accepted Test L physical output on the tested third-party roll and requested its release. Start each B1 print job in continuous mode, then select gap mode **after PrintStart and before photo upload**. This preserves the full three 44 × 20 mm photos and Type footer on an 80 mm label. Firmware remains unchanged; this is a command-sequence workaround.
 
-Gap-mode job start previously returned WriteRfidFail (20), while a separate positioning command advanced to a label gap. The working photo layout still uses a 72 mm raster and measured feed behavior. Equal top/bottom margins, restart recovery, active gap sensing between continuous jobs and general compatibility are not proven. Historical failures remain in the chronological log.
+See [registered-gap printing](docs/REGISTERED-GAP-PRINTING.md) for the exact order, dimensions, prior drift measurements and validation limits. The final successful run's exact count was not supplied. Earlier continuous-feed and ordinary gap-start failures remain documented; they are not the released profile.
 
 ## Current documentation
 
+- [Accepted registered-gap print sequence](docs/REGISTERED-GAP-PRINTING.md)
 - [Methodology and evidence standards](docs/METHODOLOGY.md)
 - [Calibration, reload recovery and margin limits](docs/CALIBRATION.md)
 - [Style C filters, density and DPI](docs/FILTERS-AND-DPI.md)
-- [Photobooth source and deployment instructions](https://github.com/Huiyuhere/yourtypemixer/blob/428bbf4/photobooth/DEPLOYMENT.md)
+- [Photobooth source and deployment instructions](https://github.com/Huiyuhere/yourtypemixer/blob/main/docs/photobooth-calibrated-release.md)
 
 ## Branches
 

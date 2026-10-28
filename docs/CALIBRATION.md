@@ -1,3 +1,5 @@
+> Current update (28 October): [owner-accepted registered-gap printing](REGISTERED-GAP-PRINTING.md) supersedes the earlier continuous-mode layout and unresolved full-height drift notes below. Historical measurements are retained unchanged.
+
 # Gap positioning and alignment
 
 ## Observed positioning command

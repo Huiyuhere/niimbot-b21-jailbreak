@@ -71,3 +71,8 @@ T11 (11:38:13 UTC): Printed 576-row verification pattern; device reported comple
 ## Later photobooth and positioning follow-up — 26 October 2026
 
 The owner confirmed real photobooth output on third-party paper, selected style C after physical comparisons, and reported 5 mm above photos / 15 mm below text on the corrected 72 mm layout. A separate five-label positioning investigation confirmed one-label feed to a gap twice, a lower mark at 50 mm on two consecutive prints, and recovery to that mark after reloading. Upper marks were at-edge/clipped. Restart recovery was not tested. A later 82 mm sparse test produced marks at 3/73 mm, but final feed and a taller real-photo job were not verified. Full details and evidence limits: CALIBRATION.md and FILTERS-AND-DPI.md. No firmware, reset, hardware or RFID-writing operation was performed. Later raw logs remain local in the photobooth checkout.
+
+
+## 28 October 2026 — Test L accepted
+
+Owner accepted Bluetooth Test L output and requested release. See [registered-gap printing](REGISTERED-GAP-PRINTING.md) for the exact sequence and limits. Earlier K2 measured 99 mm photo pitch against 86 mm paper pitch; ordinary gap-start failed with RFID error 20. Test L initializes continuous mode then switches to gap mode before PageStart. Stock firmware is unchanged. No new hardware operations were performed for documentation publication.
